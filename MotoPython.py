@@ -9,6 +9,7 @@ Print('Starting python file for the project')
 # create graphs  to calculate CD
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 from scipy.optimize import curve_fit
 
 Vx=[20,30,40,50,60,70] #velocity  data points
@@ -71,6 +72,7 @@ yfit3=drforcebike(xfit,Cd_tt)
 plt.plot(xfit,yfit1, '-y', label='Fitted Curve of Mountain bike ')
 plt.plot(xfit,yfit2, '-r', label='Fitted curve of Road Race Bike')
 plt.plot(xfit,yfit3, '-b', label='Fitted curve of Time Trial bike')
+plt.title('Drag Force vs Velocity')
 plt.legend()
 plt.grid(True)
 plt.xlim(0, 80);
@@ -81,25 +83,26 @@ plt.xticks([0,20,40,60,80]);
 
 
 
+
 # In[35]:
 
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-def Topspeed(P_engine_watts, Cd, A, rho=1.225):
+def Topspeed(P_engine_watts, Cd, A, rho):
     """
     Calculate top speed from power, Cd, frontal area, and air density.
     """
     return ((2 * P_engine_watts) / (rho * Cd * A)) ** (1/3)
 
 # Parameters
-Cd = 0.5     # Drag coefficient (random number)
-A = 0.6      # Frontal area (m²)
-rho = 1.225  # Air density (kg/m³)
+Cd = 0.5    # Drag coefficient (random number)
+A = 0.644384      # Frontal area (m²) taken from source 3
+rho = 1.2886  # Air density (kg/m³) taken from source 3
 
 # Engine powers (W): from 10 hp to 200 hp (1 hp ≈ 745.7 W)
-powers_hp = np.linspace(10, 200, 100)
+powers_hp = np.linspace(5, 200, 1000)
 powers_watts = powers_hp * 745.7
 
 # Calculate corresponding top speeds
@@ -109,10 +112,12 @@ drc=str(Cd)
 # Plot
 plt.figure(figsize=(8, 5))
 plt.plot(powers_hp, speeds_kph, color='darkblue', linewidth=2)
-plt.xlabel("Engine Power (hp)")
-plt.ylabel("Top Speed (km/h)")
-plt.title("Top Speed vs Engine Power for Motorcycle for Drag coeffecient: "+ drc)
+plt.xlabel("Engine Power (hp)", color='blue')
+plt.ylabel("Top Speed (km/h)", color='blue')
+plt.title("Top Speed vs Engine Power for Yamaha YZF-R1 with Drag coeffecient: "+ drc)
 plt.grid(True)
+plt.xlim(0, 210);
+plt.ylim(0, 350);
 plt.tight_layout()
 plt.show()
 
